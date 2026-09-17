@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import os
 import re
 import subprocess
 import time
@@ -28,14 +29,20 @@ ALLOWED_AXIOMS = {'propext', 'Classical.choice', 'Quot.sound'}
 
 def run(arguments: list[str]) -> dict:
     started = time.monotonic()
-    result = subprocess.run(arguments, cwd=ROOT, text=True, encoding='utf-8',
-                            errors='replace', capture_output=True, check=False)
-    print(result.stdout, end='', flush=True)
-    print(result.stderr, end='', flush=True)
-    if result.returncode != 0:
-        raise RuntimeError(f'检查失败，退出码 {result.returncode}：{arguments}')
+    print('执行：' + ' '.join(arguments), flush=True)
+    process = subprocess.Popen(arguments, cwd=ROOT, text=True, encoding='utf-8',
+                               errors='replace', stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+    lines = []
+    if process.stdout is None:
+        raise RuntimeError('未能建立检查输出管道')
+    for line in process.stdout:
+        lines.append(line)
+        print(line, end='', flush=True)
+    code = process.wait()
+    if code != 0:
+        raise RuntimeError(f'检查失败，退出码 {code}：{arguments}')
     return {'command': arguments, 'seconds': round(time.monotonic() - started, 3),
-            'stdout': result.stdout, 'stderr': result.stderr, 'exit_code': 0}
+            'stdout': ''.join(lines), 'stderr': '', 'exit_code': 0}
 
 
 def main() -> None:
@@ -44,7 +51,10 @@ def main() -> None:
     for path in sources:
         if forbidden.search(path.read_text(encoding='utf-8')):
             raise RuntimeError(f'证明源文件含有待审查的声明或占位：{path}')
-    records = [run(['lake', 'build'])]
+    # 大证书逐个构建，减少同时驻留的 Lean 进程，且实时保留远程检查进度。
+    os.environ.setdefault('LEAN_NUM_THREADS', '2')
+    records = [run(['lake', 'build', module]) for module in MODULES]
+    records.append(run(['lake', 'build', 'SunPrize']))
     audit = run(['lake', 'env', 'lean', 'scripts/Audit.lean'])
     records.append(audit)
     axioms = re.findall(r"'([^']+)' depends on axioms: \[([^\]]*)\]", audit['stdout'])

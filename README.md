@@ -36,7 +36,8 @@ lake exe cache get Mathlib.Tactic Mathlib.Logic.Equiv.Fintype Mathlib.Data.Finty
 python scripts/verify.py
 ```
 
-检查脚本依次完成工程构建、六个关键定理的公理审计，以及每个证明模块的 `leanchecker` 声明重放。
+检查脚本逐模块构建，避免两个大证书同时编译；随后完成六个关键定理的公理审计，
+以及每个证明模块的 `leanchecker` 声明重放。默认使用两个 Lean 工作线程，并实时输出进度。
 完整报告输出到 `.research-cache/verification.json`。`leanchecker` 使用同一个 Lean 内核，
 这项检查不等于第三方数学评审，也不等于奖项主办方的官方核验。
 

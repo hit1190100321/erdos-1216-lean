@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 45
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # 固定 v7.0.1
       - name: 安装固定的 Lean 工具链
         run: |
           curl --proto '=https' --tlsv1.2 -sSf https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh -s -- -y --default-toolchain none
@@ -23,7 +23,7 @@ jobs:
       - name: 构建、公理审计及声明重放
         run: python3 scripts/verify.py
       - name: 保存核验报告
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # 固定 v7.0.1
         with:
           name: 核验报告
           path: .research-cache/verification.json
