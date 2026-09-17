@@ -27,3 +27,5 @@ jobs:
         with:
           name: 核验报告
           path: .research-cache/verification.json
+          include-hidden-files: true
+          if-no-files-found: error
