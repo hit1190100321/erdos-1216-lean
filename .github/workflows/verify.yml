@@ -1,0 +1,29 @@
+name: 核验完整形式化
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - name: 安装固定的 Lean 工具链
+        run: |
+          curl --proto '=https' --tlsv1.2 -sSf https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh -s -- -y --default-toolchain none
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+      - name: 获取所需 mathlib 缓存
+        run: lake exe cache get Mathlib.Tactic Mathlib.Logic.Equiv.Fintype Mathlib.Data.Fintype.Sum Mathlib.Data.Fin.VecNotation Mathlib.Data.Finset.Lattice.Fold
+      - name: 构建、公理审计及声明重放
+        run: python3 scripts/verify.py
+      - name: 保存核验报告
+        uses: actions/upload-artifact@v4
+        with:
+          name: 核验报告
+          path: .research-cache/verification.json

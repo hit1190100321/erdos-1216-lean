@@ -1,0 +1,196 @@
+{
+  "checked_at_utc": "2026-09-17T12:50:49.485835+00:00",
+  "description": "本地构建、公理审计和同一 Lean 内核的声明重放；不代表第三方评审或官方核验。",
+  "lean": "Lean (version 4.33.0, x86_64-w64-windows-gnu, commit d8b18978322de05a8f3dba51ef03cf5461676c17, Release)",
+  "mathlib_commit": "db584cd6d46c92f209a44c0f1c829460d327499d",
+  "axioms": {
+    "SunPrize.sevenClassificationContradiction": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "SunPrize.normalizedFifteenContradiction": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "SunPrize.classify_seven": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "SunPrize.Tournament.every_fifteen_contains_five": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "SunPrize.guaranteedOrder_spec": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "SunPrize.erdos_1216_disproved": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ]
+  },
+  "source_sha256": {
+    "SunPrize/Basic.lean": "d9a9de672faf2697fa93aad098190f7f6077d3929209a2eaf7c066b6c729f3e6",
+    "SunPrize/Certificates/normalizedFifteenContradiction.lean": "c30af9acc870401bd3c0de72f4c35c1c4ccd742b4fef4604a1e4a7e527b6cd2e",
+    "SunPrize/Certificates/sevenClassificationContradiction.lean": "6b84ab4f9145fa4a9a89ae6ce86d325365dd4c504a2b565b380e39a479be6c18",
+    "SunPrize/Classification.lean": "77cca1fd1ceebcb30cd2b350beeff9a271fd85466c380e9b321ba050983cc89e",
+    "SunPrize/Erdos1216.lean": "995670f9ca2d7e3905f0080827176cb45e21a0ee4df5b6001d56777caf9119de",
+    "SunPrize/Extension.lean": "83f69fd5e64ccd65db8b5a39dce4d6f4ad9d2f7a85163af7a1df61f0496074ac",
+    "SunPrize/Graph.lean": "eadc3d2179d79058ccded14a1e95408b188e4def0ae03a424b3214382f0ef6f6",
+    "SunPrize/Main.lean": "2d71558809c308909fad822703326eba78292b765d1158cd4b35c8050d2319d8",
+    "SunPrize/Obstruction.lean": "3ebbc222eadd607340fdaa3c07e38ae0fd10ada863c28401b8679a71d7484197",
+    "SunPrize/Tables.lean": "7c504166c9ba53d1f1a054ec22f9b5fcb523f5e5c1b199a3d031fa23ed22cf89",
+    "SunPrize.lean": "a0862053681f720b23537df74b2ef9a53a86111ccddbf82df0718d106af160a6"
+  },
+  "checks": [
+    {
+      "command": [
+        "lake",
+        "build"
+      ],
+      "seconds": 71.406,
+      "stdout": "ℹ [3008/3017] Replayed SunPrize.Certificates.sevenClassificationContradiction\ninfo: SunPrize/Certificates/sevenClassificationContradiction.lean:31000:0: 'SunPrize.sevenClassificationContradiction' depends on axioms: [propext, Classical.choice, Quot.sound]\nℹ [3009/3017] Replayed SunPrize.Certificates.normalizedFifteenContradiction\ninfo: SunPrize/Certificates/normalizedFifteenContradiction.lean:159891:0: 'SunPrize.normalizedFifteenContradiction' depends on axioms: [propext, Classical.choice, Quot.sound]\n✔ [3010/3017] Built SunPrize.Graph (9.9s)\n✔ [3011/3017] Built SunPrize.Extension (14s)\n✔ [3012/3017] Built SunPrize.Obstruction (14s)\n✔ [3013/3017] Built SunPrize.Classification (11s)\nℹ [3014/3017] Built SunPrize.Main (10s)\ninfo: SunPrize/Main.lean:81:0: 'SunPrize.Tournament.every_fifteen_contains_five' depends on axioms: [propext, Classical.choice, Quot.sound]\nℹ [3015/3017] Built SunPrize.Erdos1216 (9.9s)\ninfo: SunPrize/Erdos1216.lean:62:0: 'SunPrize.erdos_1216_disproved' depends on axioms: [propext, Classical.choice, Quot.sound]\n✔ [3016/3017] Built SunPrize (9.7s)\nBuild completed successfully (3017 jobs).\n",
+      "stderr": "",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "lake",
+        "env",
+        "lean",
+        "scripts/Audit.lean"
+      ],
+      "seconds": 14.219,
+      "stdout": "'SunPrize.sevenClassificationContradiction' depends on axioms: [propext, Classical.choice, Quot.sound]\n'SunPrize.normalizedFifteenContradiction' depends on axioms: [propext, Classical.choice, Quot.sound]\n'SunPrize.classify_seven' depends on axioms: [propext, Classical.choice, Quot.sound]\n'SunPrize.Tournament.every_fifteen_contains_five' depends on axioms: [propext, Classical.choice, Quot.sound]\n'SunPrize.guaranteedOrder_spec' depends on axioms: [propext, Classical.choice, Quot.sound]\n'SunPrize.erdos_1216_disproved' depends on axioms: [propext, Classical.choice, Quot.sound]\nSunPrize.erdos_1216_disproved : ¬∀ (n : ℕ), 0 < n → SunPrize.guaranteedOrder n = n.log2 + 1\n",
+      "stderr": "",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "lake",
+        "env",
+        "leanchecker",
+        "SunPrize.Basic"
+      ],
+      "seconds": 14.062,
+      "stdout": "",
+      "stderr": "",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "lake",
+        "env",
+        "leanchecker",
+        "SunPrize.Tables"
+      ],
+      "seconds": 44.375,
+      "stdout": "",
+      "stderr": "",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "lake",
+        "env",
+        "leanchecker",
+        "SunPrize.Graph"
+      ],
+      "seconds": 20.203,
+      "stdout": "",
+      "stderr": "",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "lake",
+        "env",
+        "leanchecker",
+        "SunPrize.Obstruction"
+      ],
+      "seconds": 19.141,
+      "stdout": "",
+      "stderr": "",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "lake",
+        "env",
+        "leanchecker",
+        "SunPrize.Extension"
+      ],
+      "seconds": 19.187,
+      "stdout": "",
+      "stderr": "",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "lake",
+        "env",
+        "leanchecker",
+        "SunPrize.Certificates.sevenClassificationContradiction"
+      ],
+      "seconds": 18.328,
+      "stdout": "",
+      "stderr": "",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "lake",
+        "env",
+        "leanchecker",
+        "SunPrize.Certificates.normalizedFifteenContradiction"
+      ],
+      "seconds": 23.157,
+      "stdout": "",
+      "stderr": "",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "lake",
+        "env",
+        "leanchecker",
+        "SunPrize.Classification"
+      ],
+      "seconds": 18.859,
+      "stdout": "",
+      "stderr": "",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "lake",
+        "env",
+        "leanchecker",
+        "SunPrize.Main"
+      ],
+      "seconds": 18.844,
+      "stdout": "",
+      "stderr": "",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "lake",
+        "env",
+        "leanchecker",
+        "SunPrize.Erdos1216"
+      ],
+      "seconds": 18.828,
+      "stdout": "",
+      "stderr": "",
+      "exit_code": 0
+    }
+  ],
+  "hash_normalization": "源码按 UTF-8 解码，将换行统一为 LF 后计算 SHA-256。"
+}

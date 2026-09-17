@@ -1,0 +1,17 @@
+# 调研下载缓存和生成产物
+.research-cache/
+.lake/
+__pycache__/
+*.pyc
+*.log
+*.zip
+*.pdf
+*.exe
+*.dll
+*.olean
+*.olean.*
+*.ilean
+*.ilean.*
+*.trace
+*.c
+*.o
